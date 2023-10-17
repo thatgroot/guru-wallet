@@ -10,7 +10,6 @@ import {
   Box,
   HStack,
   Icon,
-  IconButton,
   Pressable,
   Skeleton,
   Text,
@@ -32,8 +31,6 @@ import {
   ModalRoutes,
   RootRoutes,
 } from '@onekeyhq/kit/src/routes/routesEnum';
-import { isBTCNetwork } from '@onekeyhq/shared/src/engine/engineConsts';
-import { isWatchingAccount } from '@onekeyhq/shared/src/engine/engineUtils';
 
 import backgroundApiProxy from '../../../background/instance/backgroundApiProxy';
 import { useAccountIsUpdating, useOverviewPendingTasks } from '../../../hooks';
@@ -43,7 +40,6 @@ import { useCopyAddress } from '../../../hooks/useCopyAddress';
 import useOpenBlockBrowser from '../../../hooks/useOpenBlockBrowser';
 import { getTimeDurationMs } from '../../../utils/helper';
 import { calculateGains } from '../../../utils/priceUtils';
-import { showAccountValueSettings } from '../../Overlay/AccountValueSettings';
 
 import AccountOption from './AccountOption';
 
@@ -360,8 +356,6 @@ const SummedValueComp = memo(
       (s) => s.settings.includeNFTsInTotal,
     );
 
-    const isWatching = isWatchingAccount({ accountId });
-
     const summaryTotalValue = useMemo(() => {
       if (!totalValue || includeNFTsInTotal) {
         return totalValue;
@@ -382,15 +376,6 @@ const SummedValueComp = memo(
                 convertValue={summaryTotalValue}
               />
             </Typography.Display2XLarge>
-            {isWatching && isBTCNetwork(networkId) ? null : (
-              <IconButton
-                name="ChevronDownMini"
-                onPress={showAccountValueSettings}
-                type="plain"
-                circle
-                ml={1}
-              />
-            )}
           </HStack>
         )}
       </Box>

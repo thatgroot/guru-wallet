@@ -13,8 +13,6 @@ import {
 import type { NFTAsset } from '@onekeyhq/engine/src/types/nft';
 import { MAX_PAGE_CONTAINER_WIDTH } from '@onekeyhq/shared/src/config/appConfig';
 
-import { FormatCurrencyNumber } from '../../../../components/Format';
-import { useTokenPrice } from '../../../../hooks/useTokens';
 import { convertToMoneyFormat } from '../utils';
 
 import NFTListImage from './NFTListImage';
@@ -54,16 +52,6 @@ function NFTListAssetCard({
     ? Math.floor((pageWidth - MARGIN * 3) / 2)
     : 177;
   const { themeVariant } = useTheme();
-  const { latestTradePrice } = asset;
-
-  const symbolPrice = useTokenPrice({
-    networkId: asset.networkId ?? '',
-    tokenIdOnNetwork: '',
-    vsCurrency: 'usd',
-  });
-  const price = symbolPrice ?? 0;
-  const value = price * (latestTradePrice ?? 0);
-
   const AmountTag = useMemo(() => {
     if (
       asset?.amount &&
@@ -111,21 +99,9 @@ function NFTListAssetCard({
         </Box>
         <HStack mt={`${padding}px`} w="100%" justifyContent="space-between">
           <Text flex={1} typography="Body2" height="20px" numberOfLines={1}>
-            {asset.name ?? asset.collection.contractName ?? ''}
+            {asset.name ?? `# ${asset.tokenId ?? ''}`}
           </Text>
         </HStack>
-
-        {latestTradePrice ? (
-          <Text typography="Body2" height="20px" color="text-subdued">
-            <FormatCurrencyNumber
-              value={0}
-              decimals={2}
-              convertValue={value > 0 ? value : ''}
-            />
-          </Text>
-        ) : (
-          <Box height="20px" />
-        )}
       </Pressable>
     </Box>
   );

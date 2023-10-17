@@ -15,9 +15,6 @@ import {
 import Pressable from '@onekeyhq/components/src/Pressable/Pressable';
 import type { Collection } from '@onekeyhq/engine/src/types/nft';
 
-import { FormatCurrencyNumber } from '../../../../components/Format';
-import { useTokenPrice } from '../../../../hooks/useTokens';
-
 import { NFTNetworkIcon } from './NetworkIcon';
 import NFTListImage from './NFTListImage';
 
@@ -114,12 +111,6 @@ function CollectionCard({
     : 177;
   const { themeVariant } = useTheme();
   const contentSize = width - 2 * padding;
-  const price = useTokenPrice({
-    networkId: collectible.networkId ?? '',
-    tokenIdOnNetwork: '',
-    vsCurrency: 'usd',
-  });
-  const value = price * (collectible.totalPrice ?? 0);
   return (
     <Box mb="16px" {...rest}>
       <Pressable
@@ -147,13 +138,6 @@ function CollectionCard({
             {collectible.contractName}
           </Text>
         </HStack>
-        <Text typography="Body2" height="20px" color="text-subdued">
-          <FormatCurrencyNumber
-            value={0}
-            decimals={2}
-            convertValue={value > 0 ? value : ''}
-          />
-        </Text>
       </Pressable>
     </Box>
   );
